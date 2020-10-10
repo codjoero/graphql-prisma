@@ -1,0 +1,22 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:10.1
+    restart: always
+    ports:
+      - "5555:5432"
+    environment: 
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+      POSTGRES_DB: prisma
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  phppgadmin:
+    image: dockage/phppgadmin:latest
+    restart: always
+    environment:
+      - PHP_PG_ADMIN_SERVER_HOST=postgres
+    ports:
+      - "90:80"
+volumes:
+  postgres: ~

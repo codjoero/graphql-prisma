@@ -1,0 +1,147 @@
+type Query {
+  users(filter: String, skip: Int, take: Int, orderBy: UserOrderByInput): [User!]!
+  me: User!
+  posts(filter: String, skip: Int, take: Int, orderBy: PostOrderByInput): PostReturn!
+  myPosts(filter: String, skip: Int, take: Int, orderBy: PostOrderByInput): PostReturn!
+  post(id: Int!): Post!
+  comments: [Comment!]!
+}
+
+type Mutation {
+  createUser(data: createUserInput): AuthPayload!
+  login(data: loginInput): AuthPayload
+  deleteUser: User!
+  updateUser(data: updateUserInput!): User!
+  createPost(data: createPostInput): Post!
+  deletePost(id: Int!): Post!
+  updatePost(id: Int!, data: updatePostInput): Post!
+  createComment(data: createCommentInput): Comment!
+  deleteComment(id: Int!): Comment!
+  updateComment(id: Int!, data: updateCommentInput): Comment!
+  vote(postId: ID!): Vote
+}
+
+type Subscription {
+  comment(postId: ID!): CommentSubscriptionPayload!
+  post: PostSubscriptionPayload!
+  vote: VoteSubscriptionPayload!
+}
+
+input createUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input loginInput {
+  email: String!
+  password: String!
+}
+
+input updateUserInput {
+  name: String
+  email: String
+  password: String
+}
+
+input createPostInput {
+  title: String!
+  body: String!
+  published: Boolean!
+}
+
+input updatePostInput {
+  title: String
+  body: String
+  published: Boolean
+}
+
+input createCommentInput {
+  post: Int!
+  text: String!
+}
+
+input updateCommentInput {
+  text: String!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String
+  posts: [Post!]!
+  comments: [Comment!]!
+  createdAt: DateTime!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  body: String!
+  published: Boolean!
+  author: User!
+  comments: [Comment!]!
+  votes: [Vote!]!
+}
+
+type Comment {
+  id: ID!
+  text: String!
+  author: User!
+  post: Post!
+}
+
+type Vote {
+  id: ID!
+  post: Post!
+  user: User!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type PostReturn {
+  posts: [Post!]!
+  count: Int!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type PostSubscriptionPayload {
+  mutation: MutationType!
+  data: Post!
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  data: Comment!
+}
+
+type VoteSubscriptionPayload {
+  mutation: MutationType!
+  data: Vote!
+}
+
+input PostOrderByInput {
+  title: Sort
+  body: Sort
+  createdAt: Sort
+}
+
+input UserOrderByInput {
+  name: Sort
+  createdAt: Sort
+}
+
+enum Sort {
+  asc
+  desc
+}
+
+scalar DateTime

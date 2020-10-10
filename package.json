@@ -1,0 +1,27 @@
+{
+  "name": "graphql-prisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "codjoe",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^2.8.1",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "bcryptjs": "^2.4.3",
+    "graphql": "^14.5.0",
+    "graphql-yoga": "^1.18.3",
+    "jsonwebtoken": "^8.5.1",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@prisma/cli": "^2.8.1",
+    "nodemon": "^2.0.4"
+  }
+}
